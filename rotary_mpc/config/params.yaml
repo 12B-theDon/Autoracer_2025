@@ -1,0 +1,31 @@
+scan_processor_node:
+  ros__parameters:
+    scan_range_min: 0.0            # (m) 레이저 스캔 데이터에서 고려할 최소 거리
+    scan_range_max: 2.0            # (m) 레이저 스캔 데이터에서 고려할 최대 거리
+    scan_angle_min: -2.35619       # (rad) 스캔 데이터에서 고려할 최소 각도
+    scan_angle_max: 2.35619        # (rad) 스캔 데이터에서 고려할 최대 각도
+    
+opponents_detector_node:
+  ros__parameters:
+    dbscan_eps: 0.25                # (m) DBSCAN 함수에서 두 점이 서로 인접하다고 판단하는 최대 거리(증가시 클러스터 크기가 더 커짐)
+    dbscan_min_points: 3           # (개수) DBSCAN에서 하나의 코어로 간주되기 위해 해당 반경 내에 있어야 하는 점 최소 개수 
+    use_weighted_median: true      # () weighted median값을 사용해서 클러스터 내의 대표점을 산출할 지 결정하는 파라미터
+    kalman_process_noise: 0.2      # (m²/s²)칼말 필터의 예측 단계에서 시스템의 불확실성(증가시 필터가 측정치에 민감하게 반응, noise에 민감해져서 요동침)
+    kalman_measurement_noise: 0.05  # (m², m²/s²) 칼만 필터의 업데이트 단계에서 측정치의 노이즈(불확실성)를 나타내는 값
+    use_kalman_filter: true        # () kalman filter 적용 여부
+    rotary_timeout: 1.0            # (초) 최근 측정이 없더라도 이 시간 이내면 검출 유지
+    min_candidates_to_process: 3   # (개수) 처리 및 측정 업데이트에 필요한 최소 후보 점 개수
+
+publish_opp_odom:
+  ros__parameters:
+    marker_topic: "moving_center_marker"        # () 상대 차량의 중심을 나타내는 marker topic 이름
+    odom_topic: "opponent_odometry"             # () 추정된 상대 차량 정보를 퍼블리시할 odom topic 이름
+    odom_child_frame: "opponent"                # () 생성된 odom 메시지의 child_frame_id
+    closest_distance_threshold: 0.8             # (m) 큐 내 최소 거리가 이 값 이하일 때 회전 교차로 진입 플래그를 퍼블리시
+    noise_distance_threshold: 0.2               # (m) 연속된 마커 사이의 이동이 이 값보다 크면 노이즈로 간주
+    new_position_reset_threshold: 1.0           # (m) 이전 위치와 거리가 이 값을 넘으면 새로운 트랙으로 초기화
+    trajectory_capacity: 10                     # (프레임) 위치 궤적을 보관할 deque 크기
+    trajectory_jump_limit: 3                    # (프레임) 노이즈 거리 초과가 이 횟수만큼 연속되면 노이즈로 처리
+    closest_distance_capacity: 30               # (프레임) 최근 거리 히스토리를 저장할 deque 크기
+    initial_distance_requirement: 30            # (프레임) 최근 거리 히스토리가 이 개수 이상 쌓인 후에만 플래그를 검사
+    

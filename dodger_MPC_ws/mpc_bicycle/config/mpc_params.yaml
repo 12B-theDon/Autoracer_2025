@@ -1,0 +1,23 @@
+## MPC parameter overview
+## path_csv: Absolute path to the waypoint CSV (map frame coordinates).
+## wheelbase: Bicycle-model wheelbase in meters.
+## dt: Control period (s) used for discretization and timer.
+## horizon: Number of steps in the MPC prediction horizon.
+## v_ref: Reference speed (m/s) when CSV speed is ignored.
+## delta_max_deg: Steering limit in degrees.
+## a_max: Longitudinal acceleration limit (m/s^2).
+## q_y, q_psi, q_v: State-error weights for lateral, heading, speed.
+## r_kappa, r_a: Input penalty weights for curvature and acceleration.
+mpc_bicycle_node:
+  ros__parameters:
+    path_csv: "/dodger_ws/src/mpc_bicycle/global_path/centered_trajectory_100.csv"
+    wheelbase: 0.33
+    dt: 0.1
+    horizon: 10
+    v_ref: 0.5
+    delta_max_deg: 30.0
+    a_max: 2.0
+    q_y: 3.0
+    q_psi: 1.0
+    r_kappa: 0.1
+    r_a: 0.01
