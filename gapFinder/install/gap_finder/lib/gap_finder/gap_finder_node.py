@@ -1,1 +1,0 @@
-/gapFinder_ws/src/gap_finder/scripts/gap_finder_node.py
